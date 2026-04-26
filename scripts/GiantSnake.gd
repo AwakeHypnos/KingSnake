@@ -1,3 +1,4 @@
+class_name GiantSnake
 extends Node2D
 
 enum MovePhase {
@@ -13,10 +14,10 @@ var grid_data: Array[Array[int]] = []
 var reached_top: bool = false
 var move_timer: float = 0.0
 
-var LEFT_AREA_HEIGHT: float = 1820.0
-var LEFT_AREA_TOP: float = 100.0
-var ROWS_NEEDED: int = 23
-var TIME_TO_WIN: float = 180.0
+const LEFT_AREA_HEIGHT: float = 1820.0
+const LEFT_AREA_TOP: float = 100.0
+const ROWS_NEEDED: int = 23
+const TIME_TO_WIN: float = 180.0
 var MOVE_INTERVAL: float
 
 func _ready():
@@ -40,7 +41,7 @@ func _initialize_snake():
 	var row = 0
 	
 	while segments_placed < total_segments and row < ROWS_NEEDED:
-		var segments_in_row = min(total_segments - segments_placed, GameManager.SEGMENTS_PER_ROW)
+		var segments_in_row = mini(total_segments - segments_placed, GameManager.SEGMENTS_PER_ROW)
 		var start_col = (GameManager.SEGMENTS_PER_ROW - segments_in_row) / 2
 		
 		for i in range(segments_in_row):
@@ -55,8 +56,8 @@ func _initialize_snake():
 
 func _create_segment(row: int, col: int, index: int):
 	var segment: SnakeSegment
-	if segment_scene:
-		segment = segment_scene.instantiate()
+	if segment_scene != null:
+		segment = segment_scene.instantiate() as SnakeSegment
 	else:
 		segment = SnakeSegment.new()
 	
@@ -68,7 +69,7 @@ func _create_segment(row: int, col: int, index: int):
 	segments.append(segment)
 	grid_data[row][col] = segments.size() - 1
 	
-	segment.connect("destroyed", _on_segment_destroyed.bind(segment))
+	segment.destroyed.connect(_on_segment_destroyed.bind(segment))
 
 func _update_segment_visuals():
 	for i in range(segments.size()):
@@ -229,27 +230,26 @@ func _move_to_next_row(current_top_row: int):
 	if next_row < 0:
 		return
 	
-	var segments_in_current = _get_segments_in_row(current_top_row)
 	var start_col = (GameManager.SEGMENTS_PER_ROW - 1) / 2
 	
 	_create_segment_in_grid(next_row, start_col, segments.size())
 
 func _create_segment_in_grid(row: int, col: int, index: int):
 	var segment: SnakeSegment
-	if segment_scene:
-		segment = segment_scene.instantiate()
+	if segment_scene != null:
+		segment = segment_scene.instantiate() as SnakeSegment
 	else:
 		segment = SnakeSegment.new()
 	
 	segment.hp = GameManager.INITIAL_SEGMENT_HP + (GameManager.player_snake_base_hp - 10)
-	segment.max_hp = max(segment.hp, GameManager.INITIAL_SEGMENT_HP)
+	segment.max_hp = maxi(segment.hp, GameManager.INITIAL_SEGMENT_HP)
 	segment.set_index(index)
 	
 	add_child(segment)
 	segments.append(segment)
 	grid_data[row][col] = segments.size() - 1
 	
-	segment.connect("destroyed", _on_segment_destroyed.bind(segment))
+	segment.destroyed.connect(_on_segment_destroyed.bind(segment))
 	
 	_update_segment_visuals()
 
@@ -263,7 +263,7 @@ func boost_front_segment_hp(amount: int):
 	var top_row = _find_top_row()
 	var boosted = 0
 	
-	for row in range(top_row, min(top_row + 2, grid_data.size())):
+	for row in range(top_row, mini(top_row + 2, grid_data.size())):
 		for col in range(grid_data[row].size()):
 			var seg_index = grid_data[row][col]
 			if seg_index >= 0 and seg_index < segments.size():
@@ -280,7 +280,7 @@ func get_segments_to_attack() -> Array[SnakeSegment]:
 	var top_row = _find_top_row()
 	var found = 0
 	
-	for row in range(top_row, min(top_row + 3, grid_data.size())):
+	for row in range(top_row, mini(top_row + 3, grid_data.size())):
 		for col in range(grid_data[row].size()):
 			var seg_index = grid_data[row][col]
 			if seg_index >= 0 and seg_index < segments.size():

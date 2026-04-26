@@ -1,3 +1,4 @@
+class_name PlayerSnake
 extends Node2D
 
 enum Direction {
@@ -13,13 +14,13 @@ var next_direction: Direction = Direction.UP
 var move_timer: float = 0.0
 var move_interval: float = 0.2
 
-var grid_size: float = 40.0
-var area_x_offset: float = 540.0
-var area_width: float = 540.0
-var area_height: float = 1820.0
-var area_y_offset: float = 100.0
+const grid_size: float = 40.0
+const area_x_offset: float = 540.0
+const area_width: float = 540.0
+const area_height: float = 1820.0
+const area_y_offset: float = 100.0
 
-var initial_length: int = 3
+const initial_length: int = 3
 var is_alive: bool = true
 
 var apple: Node2D = null
@@ -34,8 +35,8 @@ func _ready():
 	GameManager.set_player_snake(self)
 
 func _initialize_snake():
-	var start_x = area_x_offset + area_width / 2
-	var start_y = area_y_offset + area_height / 2
+	var start_x = area_x_offset + area_width / 2.0
+	var start_y = area_y_offset + area_height / 2.0
 	
 	for i in range(initial_length):
 		var segment = _create_segment()
@@ -47,7 +48,7 @@ func _initialize_snake():
 
 func _create_segment() -> Node2D:
 	var segment: Node2D
-	if segment_scene:
+	if segment_scene != null:
 		segment = segment_scene.instantiate()
 	else:
 		segment = _create_basic_segment()
@@ -57,9 +58,9 @@ func _create_basic_segment() -> Node2D:
 	var segment = Node2D.new()
 	
 	var visual = ColorRect.new()
-	visual.color = Color.BLUE
-	visual.size = Vector2(grid_size - 2, grid_size - 2)
-	visual.position = Vector2(-(grid_size - 2) / 2, -(grid_size - 2) / 2)
+	visual.color = Color(0.0, 0.0, 0.8, 1.0)
+	visual.size = Vector2(grid_size - 2.0, grid_size - 2.0)
+	visual.position = Vector2(-(grid_size - 2.0) / 2.0, -(grid_size - 2.0) / 2.0)
 	segment.add_child(visual)
 	
 	return segment
@@ -69,16 +70,16 @@ func _update_head_visual():
 		var head = body[0]
 		for child in head.get_children():
 			if child is ColorRect:
-				child.color = Color.CYAN
+				child.color = Color(0.0, 1.0, 1.0, 1.0)
 	
 	for i in range(1, body.size()):
 		var segment = body[i]
 		for child in segment.get_children():
 			if child is ColorRect:
-				child.color = Color.BLUE
+				child.color = Color(0.0, 0.0, 0.8, 1.0)
 
 func _spawn_apple():
-	if apple:
+	if apple != null:
 		apple.queue_free()
 	
 	var max_tries = 100
@@ -91,8 +92,8 @@ func _spawn_apple():
 		var col = randi() % int(area_width / grid_size)
 		var row = randi() % int(area_height / grid_size)
 		
-		var x = area_x_offset + col * grid_size + grid_size / 2
-		var y = area_y_offset + row * grid_size + grid_size / 2
+		var x = area_x_offset + col * grid_size + grid_size / 2.0
+		var y = area_y_offset + row * grid_size + grid_size / 2.0
 		
 		apple_pos = Vector2(x, y)
 		
@@ -109,7 +110,7 @@ func _spawn_apple():
 
 func _create_apple() -> Node2D:
 	var apple_node: Node2D
-	if apple_scene:
+	if apple_scene != null:
 		apple_node = apple_scene.instantiate()
 	else:
 		apple_node = _create_basic_apple()
@@ -119,14 +120,14 @@ func _create_basic_apple() -> Node2D:
 	var apple_node = Node2D.new()
 	
 	var visual = ColorRect.new()
-	visual.color = Color.RED
-	visual.size = Vector2(grid_size - 4, grid_size - 4)
-	visual.position = Vector2(-(grid_size - 4) / 2, -(grid_size - 4) / 2)
+	visual.color = Color(1.0, 0.0, 0.0, 1.0)
+	visual.size = Vector2(grid_size - 4.0, grid_size - 4.0)
+	visual.position = Vector2(-(grid_size - 4.0) / 2.0, -(grid_size - 4.0) / 2.0)
 	apple_node.add_child(visual)
 	
 	var collision = CollisionShape2D.new()
 	var shape = CircleShape2D.new()
-	shape.radius = grid_size / 2 - 2
+	shape.radius = grid_size / 2.0 - 2.0
 	collision.shape = shape
 	apple_node.add_child(collision)
 	
@@ -184,13 +185,13 @@ func _move():
 func _get_next_position(current: Vector2, dir: Direction) -> Vector2:
 	match dir:
 		Direction.UP:
-			return current + Vector2(0, -grid_size)
+			return current + Vector2(0.0, -grid_size)
 		Direction.DOWN:
-			return current + Vector2(0, grid_size)
+			return current + Vector2(0.0, grid_size)
 		Direction.LEFT:
-			return current + Vector2(-grid_size, 0)
+			return current + Vector2(-grid_size, 0.0)
 		Direction.RIGHT:
-			return current + Vector2(grid_size, 0)
+			return current + Vector2(grid_size, 0.0)
 	return current
 
 func _wrap_position(pos: Vector2) -> Vector2:
@@ -211,12 +212,12 @@ func _wrap_position(pos: Vector2) -> Vector2:
 func _check_self_collision(new_head_pos: Vector2) -> bool:
 	for i in range(0, body.size() - 1):
 		var segment = body[i]
-		if segment.position.distance_to(new_head_pos) < grid_size / 2:
+		if segment.position.distance_to(new_head_pos) < grid_size / 2.0:
 			return true
 	return false
 
 func _check_apple_collision(head_pos: Vector2) -> bool:
-	if not apple:
+	if apple == null:
 		return false
 	return head_pos.distance_to(apple.position) < grid_size
 
@@ -232,7 +233,7 @@ func _die():
 	for segment in body:
 		for child in segment.get_children():
 			if child is ColorRect:
-				child.color = Color.GRAY
+				child.color = Color(0.5, 0.5, 0.5, 1.0)
 
 func is_snake_alive() -> bool:
 	return is_alive

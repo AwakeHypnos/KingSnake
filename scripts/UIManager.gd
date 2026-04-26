@@ -1,3 +1,4 @@
+class_name UIManager
 extends CanvasLayer
 
 var score_label: Label
@@ -21,9 +22,9 @@ func _setup_connections():
 func _setup_ui_elements():
 	var info_panel = VBoxContainer.new()
 	info_panel.anchors_preset = Control.PRESET_TOP_WIDE
-	info_panel.offset_top = 5
-	info_panel.offset_left = 10
-	info_panel.offset_right = -10
+	info_panel.offset_top = 5.0
+	info_panel.offset_left = 10.0
+	info_panel.offset_right = -10.0
 	add_child(info_panel)
 	
 	var info_hbox = HBoxContainer.new()
@@ -33,23 +34,27 @@ func _setup_ui_elements():
 	score_label = Label.new()
 	score_label.text = "积分: 0"
 	score_label.add_theme_font_size_override("font_size", 32)
-	score_label.modulate = Color.WHITE
+	score_label.modulate = Color(1.0, 1.0, 1.0, 1.0)
 	info_hbox.add_child(score_label)
 	
-	info_hbox.add_child(Control.new())
+	var spacer1 = Control.new()
+	spacer1.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	info_hbox.add_child(spacer1)
 	
 	time_label = Label.new()
 	time_label.text = "时间: 3:00"
 	time_label.add_theme_font_size_override("font_size", 32)
-	time_label.modulate = Color.WHITE
+	time_label.modulate = Color(1.0, 1.0, 1.0, 1.0)
 	info_hbox.add_child(time_label)
 	
-	info_hbox.add_child(Control.new())
+	var spacer2 = Control.new()
+	spacer2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	info_hbox.add_child(spacer2)
 	
 	hp_boost_label = Label.new()
 	hp_boost_label.text = "血量加成: 10"
 	hp_boost_label.add_theme_font_size_override("font_size", 32)
-	hp_boost_label.modulate = Color.GREEN
+	hp_boost_label.modulate = Color(0.0, 1.0, 0.0, 1.0)
 	info_hbox.add_child(hp_boost_label)
 	
 	_setup_game_over_panel()
@@ -85,8 +90,8 @@ func _on_score_changed(new_score: int):
 
 func _on_time_changed(new_time: float):
 	var remaining = GameManager.get_remaining_time()
-	var minutes = int(remaining / 60)
-	var seconds = int(remaining % 60)
+	var minutes = int(remaining / 60.0)
+	var seconds = int(fmod(remaining, 60.0))
 	time_label.text = "时间: %d:%02d" % [minutes, seconds]
 
 func _on_hp_boosted(new_hp: int):
@@ -103,13 +108,13 @@ func _show_game_over(won: bool):
 	
 	if won:
 		game_result_label.text = "游戏胜利！"
-		game_result_label.modulate = Color.GREEN
+		game_result_label.modulate = Color(0.0, 1.0, 0.0, 1.0)
 	else:
 		game_result_label.text = "游戏失败！"
-		game_result_label.modulate = Color.RED
+		game_result_label.modulate = Color(1.0, 0.0, 0.0, 1.0)
 	
-	var final_score_label = game_over_panel.get_node("VBoxContainer/FinalScoreLabel")
-	if final_score_label:
+	if game_over_panel.has_node("VBoxContainer/FinalScoreLabel"):
+		var final_score_label = game_over_panel.get_node("VBoxContainer/FinalScoreLabel")
 		final_score_label.text = "最终积分: " + str(GameManager.score)
 
 func _on_restart_pressed():

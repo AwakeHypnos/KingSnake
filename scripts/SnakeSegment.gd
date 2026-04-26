@@ -1,3 +1,4 @@
+class_name SnakeSegment
 extends Area2D
 
 @export var hp: int = 7
@@ -16,7 +17,7 @@ func _ready():
 
 func _setup_visuals():
 	segment_sprite = ColorRect.new()
-	segment_sprite.color = Color.DARK_GREEN
+	segment_sprite.color = Color(0.09, 0.47, 0.13, 1.0)
 	segment_sprite.size = Vector2(GameManager.SEGMENT_WIDTH, GameManager.SEGMENT_HEIGHT)
 	add_child(segment_sprite)
 	
@@ -26,13 +27,13 @@ func _setup_visuals():
 	hp_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	hp_label.anchors_preset = Control.PRESET_FULL_RECT
 	hp_label.add_theme_font_size_override("font_size", 24)
-	hp_label.modulate = Color.WHITE
+	hp_label.modulate = Color(1.0, 1.0, 1.0, 1.0)
 	add_child(hp_label)
 
 func _setup_collision():
 	var collision = CollisionShape2D.new()
 	var shape = RectangleShape2D.new()
-	shape.size = Vector2(GameManager.SEGMENT_WIDTH - 2, GameManager.SEGMENT_HEIGHT - 2)
+	shape.size = Vector2(GameManager.SEGMENT_WIDTH - 2.0, GameManager.SEGMENT_HEIGHT - 2.0)
 	collision.shape = shape
 	add_child(collision)
 	
@@ -40,7 +41,7 @@ func _setup_collision():
 	collision_mask = 16
 
 func set_hp(new_hp: int):
-	hp = clamp(new_hp, 0, max_hp)
+	hp = clampi(new_hp, 0, max_hp)
 	hp_label.text = str(hp)
 	hp_changed.emit(hp)
 	
@@ -61,7 +62,7 @@ func set_index(index: int):
 	segment_index = index
 
 func set_as_head():
-	segment_sprite.color = Color.GREEN
+	segment_sprite.color = Color(0.0, 0.8, 0.2, 1.0)
 
 func set_as_body():
-	segment_sprite.color = Color.DARK_GREEN
+	segment_sprite.color = Color(0.09, 0.47, 0.13, 1.0)

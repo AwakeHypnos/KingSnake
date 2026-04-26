@@ -1,3 +1,4 @@
+class_name GameManager
 extends Node
 
 enum GameState {
@@ -9,34 +10,34 @@ enum GameState {
 
 var game_state: GameState = GameState.STARTING
 
-var giant_snake = null
-var player_snake = null
-var wall_system = null
+var giant_snake: Node = null
+var player_snake: Node = null
+var wall_system: Node = null
 
 var score: int = 0
 var time_elapsed: float = 0.0
 var player_snake_base_hp: int = 10
 
-var GAME_DURATION: float = 180.0
-var SEGMENT_WIDTH: float = 80.0
-var SEGMENT_HEIGHT: float = 80.0
-var SEGMENTS_PER_ROW: int = 6
-var INITIAL_GIANT_SNAKE_LENGTH: int = 13
-var INITIAL_SEGMENT_HP: int = 7
+const GAME_DURATION: float = 180.0
+const SEGMENT_WIDTH: float = 80.0
+const SEGMENT_HEIGHT: float = 80.0
+const SEGMENTS_PER_ROW: int = 6
+const INITIAL_GIANT_SNAKE_LENGTH: int = 13
+const INITIAL_SEGMENT_HP: int = 7
 
-var SOLDIER_INITIAL_DAMAGE: int = 2
-var SOLDIER_ATTACK_INTERVAL: float = 4.0
-var SOLDIER_SPAWN_INTERVAL: float = 30.0
-var SOLDIER_ATTACK_SEGMENTS: int = 3
+const SOLDIER_INITIAL_DAMAGE: int = 2
+const SOLDIER_ATTACK_INTERVAL: float = 4.0
+const SOLDIER_SPAWN_INTERVAL: float = 30.0
+const SOLDIER_ATTACK_SEGMENTS: int = 3
 
-var SCORE_PER_APPLE: int = 10
-var HP_BOOST_PER_APPLE: int = 10
+const SCORE_PER_APPLE: int = 10
+const HP_BOOST_PER_APPLE: int = 10
 
-var LEFT_AREA_WIDTH: float = 540.0
-var RIGHT_AREA_WIDTH: float = 540.0
-var SCREEN_WIDTH: float = 1080.0
-var SCREEN_HEIGHT: float = 1920.0
-var WALL_HEIGHT: float = 100.0
+const LEFT_AREA_WIDTH: float = 540.0
+const RIGHT_AREA_WIDTH: float = 540.0
+const SCREEN_WIDTH: float = 1080.0
+const SCREEN_HEIGHT: float = 1920.0
+const WALL_HEIGHT: float = 100.0
 
 signal game_won
 signal game_lost
@@ -62,17 +63,18 @@ func _process(delta: float):
 			_check_giant_snake_reached_top()
 
 func _check_giant_snake_reached_top():
-	if giant_snake:
-		if giant_snake.has_reached_top():
-			win_game()
+	if giant_snake != null:
+		if giant_snake.has_method("has_reached_top"):
+			if giant_snake.has_reached_top():
+				win_game()
 
-func set_giant_snake(snake):
+func set_giant_snake(snake: Node):
 	giant_snake = snake
 
-func set_player_snake(snake):
+func set_player_snake(snake: Node):
 	player_snake = snake
 
-func set_wall_system(wall):
+func set_wall_system(wall: Node):
 	wall_system = wall
 
 func add_score(points: int):
@@ -82,11 +84,12 @@ func add_score(points: int):
 func boost_giant_snake_hp(amount: int):
 	player_snake_base_hp += amount
 	hp_boosted.emit(player_snake_base_hp)
-	if giant_snake:
-		giant_snake.boost_front_segment_hp(amount)
+	if giant_snake != null:
+		if giant_snake.has_method("boost_front_segment_hp"):
+			giant_snake.boost_front_segment_hp(amount)
 
 func get_remaining_time() -> float:
-	return max(0.0, GAME_DURATION - time_elapsed)
+	return maxf(0.0, GAME_DURATION - time_elapsed)
 
 func win_game():
 	if game_state == GameState.PLAYING:
