@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://apple"]
+
+[node name="Apple" type="Area2D"]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = CircleShape2D()
+shape.radius = 18.0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+position = Vector2(-18, -18)
+size = Vector2(36, 36)
+color = Color(1, 0, 0, 1)

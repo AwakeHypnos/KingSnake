@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://player_segment"]
+
+[node name="PlayerSegment" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+position = Vector2(-19, -19)
+size = Vector2(38, 38)
+color = Color(0, 0, 0.8, 1)
