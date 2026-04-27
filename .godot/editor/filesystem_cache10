@@ -1,6 +1,10 @@
 63f7b34db8d8cdea90c76aacccf841ec
-::res://::1777270672
-icon.svg::CompressedTexture2D::5651981957218261260::1777230519::1777235770::1::::<><><>0<>0<>628f88deaedcb9ed182da5f618e0dd4f<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
+::res://::1777276557
+export_presets.cfg::TextFile::-1::1777276557::0::1::::<><><>0<>0<><>::
+icon.svg::CompressedTexture2D::5651981957218261260::1777230519::1777271190::1::::<><><>0<>0<>628f88deaedcb9ed182da5f618e0dd4f<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
+KingSnake.apple-touch-icon.png::CompressedTexture2D::8257185376882425340::1777276556::1777276654::1::::<><><>0<>0<>5139ca581efd135b60b9c7312cf3dee2<>res://.godot/imported/KingSnake.apple-touch-icon.png-b0c56ea47e0971c3a970c836ee5128b4.ctex::
+KingSnake.icon.png::CompressedTexture2D::3435011531934392837::1777276556::1777276654::1::::<><><>0<>0<>378c3ef3ba2cb9f68eac0c156677f46c<>res://.godot/imported/KingSnake.icon.png-bd53a92829cc7d24b3a4567d16d99069.ctex::
+KingSnake.png::CompressedTexture2D::1545439868898462372::1777276556::1777276654::1::::<><><>0<>0<>0634c6096a323717d3dfa0fed029fb06<>res://.godot/imported/KingSnake.png-944c07c5988382f195a355249d3c452a.ctex::
 README.md::TextFile::-1::1777211346::0::1::::<><><>0<>0<><>::
 ::res://scenes/::1777230427
 Apple.tscn::PackedScene::607278::1777269956::0::1::::<><><>0<>0<><>::
@@ -10,7 +14,7 @@ PlayerSegment.tscn::PackedScene::-1::1777269980::0::1::::<><><>0<>0<><>::
 SnakeSegment.tscn::PackedScene::-1::1777269962::0::1::::<><><>0<>0<><>::res://scripts/SnakeSegment.gd
 Soldier.tscn::PackedScene::28457402433::1777230402::0::1::::<><><>0<>0<><>::res://scripts/Soldier.gd
 ::res://scripts/::1777235770
-Arrow.gd::GDScript::457068329926628356::1777245269::0::1::::<>Area2D<><>0<>0<><>::
+Arrow.gd::GDScript::457068329926628356::1777270964::0::1::::<>Area2D<><>0<>0<><>::
 GameManager.gd::GDScript::3674231771766151108::1777245214::0::1::::<>Node<><>0<>0<><>::
 GiantSnake.gd::GDScript::8453172269908167893::1777269860::0::1::::<>Node2D<><>0<>0<><>::
 PlayerSnake.gd::GDScript::1905360419383175888::1777245350::0::1::::<>Node2D<><>0<>0<><>::
