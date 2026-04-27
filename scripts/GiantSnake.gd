@@ -38,7 +38,7 @@ func _initialize_snake():
 		var segments_in_row = total_segments - segments_placed
 		if segments_in_row > 6:
 			segments_in_row = 6
-		var start_col = (6 - segments_in_row) / 2
+		var start_col = (6 - segments_in_row) // 2
 		
 		for i in range(segments_in_row):
 			var col = start_col + i
@@ -198,7 +198,7 @@ func _get_segments_in_row(row: int) -> int:
 
 func _grow_top_row(top_row: int):
 	var segments_in_top_row = _get_segments_in_row(top_row)
-	var start_col = (6 - (segments_in_top_row + 1)) / 2
+	var start_col = (6 - (segments_in_top_row + 1)) // 2
 	
 	for col in range(grid_data[top_row].size()):
 		if grid_data[top_row][col] >= 0:
@@ -235,7 +235,7 @@ func _move_to_next_row(current_top_row: int):
 	if next_row < 0:
 		return
 	
-	var start_col = (6 - 1) / 2
+	var start_col = (6 - 1) // 2
 	
 	_create_segment_in_grid(next_row, start_col, segments.size())
 
