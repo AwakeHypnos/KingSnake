@@ -3,7 +3,7 @@ extends Node2D
 var segments: Array[Node2D] = []
 var segment_scene: PackedScene
 
-var grid_data: Array[Array[int]] = []
+var grid_data: Array = []
 
 var reached_top: bool = false
 var move_timer: float = 0.0
