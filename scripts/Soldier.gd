@@ -1,4 +1,3 @@
-class_name Soldier
 extends Node2D
 
 var arrow_scene: PackedScene
@@ -6,10 +5,10 @@ var arrow_scene: PackedScene
 func _ready():
 	arrow_scene = preload("res://scenes/Arrow.tscn")
 
-func attack(target: SnakeSegment, damage: int):
+func attack(target: Node2D, damage: int):
 	_shoot_arrow(target, damage)
 
-func _shoot_arrow(target: SnakeSegment, damage: int):
+func _shoot_arrow(target: Node2D, damage: int):
 	if target == null:
 		return
 	
@@ -19,18 +18,14 @@ func _shoot_arrow(target: SnakeSegment, damage: int):
 	else:
 		arrow = _create_basic_arrow()
 	
-	if arrow.has_method("set_target"):
-		arrow.set("target", target)
-	if arrow.has_method("set_damage"):
-		arrow.set("damage", damage)
-	arrow.set("target", target)
+	arrow.set("target_node", target)
 	arrow.set("damage", damage)
 	arrow.position = global_position
 	
 	get_tree().root.add_child(arrow)
 
 func _create_basic_arrow() -> Node2D:
-	var arrow = Node2D.new()
+	var arrow = Area2D.new()
 	arrow.set_script(preload("res://scripts/Arrow.gd"))
 	
 	var visual = ColorRect.new()

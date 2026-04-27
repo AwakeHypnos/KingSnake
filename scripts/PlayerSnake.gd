@@ -1,4 +1,3 @@
-class_name PlayerSnake
 extends Node2D
 
 enum Direction {
@@ -9,8 +8,8 @@ enum Direction {
 }
 
 var body: Array[Node2D] = []
-var direction: Direction = Direction.UP
-var next_direction: Direction = Direction.UP
+var direction: int = Direction.UP
+var next_direction: int = Direction.UP
 var move_timer: float = 0.0
 var move_interval: float = 0.2
 
@@ -182,7 +181,7 @@ func _move():
 	
 	_update_head_visual()
 
-func _get_next_position(current: Vector2, dir: Direction) -> Vector2:
+func _get_next_position(current: Vector2, dir: int) -> Vector2:
 	match dir:
 		Direction.UP:
 			return current + Vector2(0.0, -grid_size)
@@ -222,13 +221,13 @@ func _check_apple_collision(head_pos: Vector2) -> bool:
 	return head_pos.distance_to(apple.position) < grid_size
 
 func _eat_apple():
-	GameManager.add_score(GameManager.SCORE_PER_APPLE)
-	GameManager.boost_giant_snake_hp(GameManager.HP_BOOST_PER_APPLE)
+	GameManager.add_score(10)
+	GameManager.boost_giant_snake_hp(10)
 	_spawn_apple()
 
 func _die():
 	is_alive = false
-	print("贪吃蛇死亡！无法继续获得积分。")
+	print("Snake died!")
 	
 	for segment in body:
 		for child in segment.get_children():
