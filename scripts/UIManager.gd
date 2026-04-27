@@ -1,4 +1,3 @@
-class_name UIManager
 extends CanvasLayer
 
 var score_label: Label
@@ -32,7 +31,7 @@ func _setup_ui_elements():
 	info_panel.add_child(info_hbox)
 	
 	score_label = Label.new()
-	score_label.text = "积分: 0"
+	score_label.text = "Score: 0"
 	score_label.add_theme_font_size_override("font_size", 32)
 	score_label.modulate = Color(1.0, 1.0, 1.0, 1.0)
 	info_hbox.add_child(score_label)
@@ -42,7 +41,7 @@ func _setup_ui_elements():
 	info_hbox.add_child(spacer1)
 	
 	time_label = Label.new()
-	time_label.text = "时间: 3:00"
+	time_label.text = "Time: 3:00"
 	time_label.add_theme_font_size_override("font_size", 32)
 	time_label.modulate = Color(1.0, 1.0, 1.0, 1.0)
 	info_hbox.add_child(time_label)
@@ -52,7 +51,7 @@ func _setup_ui_elements():
 	info_hbox.add_child(spacer2)
 	
 	hp_boost_label = Label.new()
-	hp_boost_label.text = "血量加成: 10"
+	hp_boost_label.text = "HP Bonus: 10"
 	hp_boost_label.add_theme_font_size_override("font_size", 32)
 	hp_boost_label.modulate = Color(0.0, 1.0, 0.0, 1.0)
 	info_hbox.add_child(hp_boost_label)
@@ -80,22 +79,22 @@ func _setup_game_over_panel():
 	vbox.add_child(final_score_label)
 	
 	restart_button = Button.new()
-	restart_button.text = "重新开始"
+	restart_button.text = "Restart"
 	restart_button.add_theme_font_size_override("font_size", 32)
 	restart_button.pressed.connect(_on_restart_pressed)
 	vbox.add_child(restart_button)
 
 func _on_score_changed(new_score: int):
-	score_label.text = "积分: " + str(new_score)
+	score_label.text = "Score: " + str(new_score)
 
 func _on_time_changed(new_time: float):
 	var remaining = GameManager.get_remaining_time()
 	var minutes = int(remaining / 60.0)
 	var seconds = int(fmod(remaining, 60.0))
-	time_label.text = "时间: %d:%02d" % [minutes, seconds]
+	time_label.text = "Time: %d:%02d" % [minutes, seconds]
 
 func _on_hp_boosted(new_hp: int):
-	hp_boost_label.text = "血量加成: " + str(new_hp)
+	hp_boost_label.text = "HP Bonus: " + str(new_hp)
 
 func _on_game_won():
 	_show_game_over(true)
@@ -107,15 +106,15 @@ func _show_game_over(won: bool):
 	game_over_panel.visible = true
 	
 	if won:
-		game_result_label.text = "游戏胜利！"
+		game_result_label.text = "You Won!"
 		game_result_label.modulate = Color(0.0, 1.0, 0.0, 1.0)
 	else:
-		game_result_label.text = "游戏失败！"
+		game_result_label.text = "Game Over!"
 		game_result_label.modulate = Color(1.0, 0.0, 0.0, 1.0)
 	
 	if game_over_panel.has_node("VBoxContainer/FinalScoreLabel"):
 		var final_score_label = game_over_panel.get_node("VBoxContainer/FinalScoreLabel")
-		final_score_label.text = "最终积分: " + str(GameManager.score)
+		final_score_label.text = "Final Score: " + str(GameManager.score)
 
 func _on_restart_pressed():
 	get_tree().reload_current_scene()

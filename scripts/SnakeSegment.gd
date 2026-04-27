@@ -1,4 +1,3 @@
-class_name SnakeSegment
 extends Area2D
 
 @export var hp: int = 7
@@ -18,7 +17,7 @@ func _ready():
 func _setup_visuals():
 	segment_sprite = ColorRect.new()
 	segment_sprite.color = Color(0.09, 0.47, 0.13, 1.0)
-	segment_sprite.size = Vector2(GameManager.SEGMENT_WIDTH, GameManager.SEGMENT_HEIGHT)
+	segment_sprite.size = Vector2(80.0, 80.0)
 	add_child(segment_sprite)
 	
 	hp_label = Label.new()
@@ -33,7 +32,7 @@ func _setup_visuals():
 func _setup_collision():
 	var collision = CollisionShape2D.new()
 	var shape = RectangleShape2D.new()
-	shape.size = Vector2(GameManager.SEGMENT_WIDTH - 2.0, GameManager.SEGMENT_HEIGHT - 2.0)
+	shape.size = Vector2(78.0, 78.0)
 	collision.shape = shape
 	add_child(collision)
 	
@@ -41,7 +40,11 @@ func _setup_collision():
 	collision_mask = 16
 
 func set_hp(new_hp: int):
-	hp = clampi(new_hp, 0, max_hp)
+	if new_hp < 0:
+		new_hp = 0
+	if new_hp > max_hp:
+		new_hp = max_hp
+	hp = new_hp
 	hp_label.text = str(hp)
 	hp_changed.emit(hp)
 	

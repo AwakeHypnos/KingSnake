@@ -1,4 +1,3 @@
-class_name WallSystem
 extends Node2D
 
 var soldiers: Array[Node2D] = []
@@ -75,11 +74,11 @@ func _process(delta: float):
 	attack_timer += delta
 	spawn_timer += delta
 	
-	if attack_timer >= GameManager.SOLDIER_ATTACK_INTERVAL:
+	if attack_timer >= 4.0:
 		attack_timer = 0.0
 		_attack()
 	
-	if spawn_timer >= GameManager.SOLDIER_SPAWN_INTERVAL:
+	if spawn_timer >= 30.0:
 		spawn_timer = 0.0
 		_spawn_new_soldier()
 
@@ -98,12 +97,16 @@ func _attack():
 	if targets.is_empty():
 		return
 	
-	for i in range(mini(soldiers.size(), targets.size())):
+	var count = soldiers.size()
+	if targets.size() < count:
+		count = targets.size()
+	
+	for i in range(count):
 		var soldier = soldiers[i]
 		var target = targets[i]
 		
 		if soldier.has_method("attack"):
-			soldier.attack(target, GameManager.SOLDIER_INITIAL_DAMAGE)
+			soldier.attack(target, 2)
 
 func _spawn_new_soldier():
 	if soldiers.size() < 5:

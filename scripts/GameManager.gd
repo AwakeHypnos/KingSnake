@@ -1,4 +1,3 @@
-class_name GameManager
 extends Node
 
 enum GameState {
@@ -8,7 +7,7 @@ enum GameState {
 	LOST
 }
 
-var game_state: GameState = GameState.STARTING
+var game_state: int = GameState.STARTING
 
 var giant_snake: Node = null
 var player_snake: Node = null
@@ -89,19 +88,22 @@ func boost_giant_snake_hp(amount: int):
 			giant_snake.boost_front_segment_hp(amount)
 
 func get_remaining_time() -> float:
-	return maxf(0.0, GAME_DURATION - time_elapsed)
+	var remaining = GAME_DURATION - time_elapsed
+	if remaining < 0.0:
+		return 0.0
+	return remaining
 
 func win_game():
 	if game_state == GameState.PLAYING:
 		game_state = GameState.WON
 		game_won.emit()
-		print("游戏胜利！大蛇到达城墙！")
+		print("Game Won!")
 
 func lose_game():
 	if game_state == GameState.PLAYING:
 		game_state = GameState.LOST
 		game_lost.emit()
-		print("游戏失败！大蛇被消灭了！")
+		print("Game Lost!")
 
 func is_playing() -> bool:
 	return game_state == GameState.PLAYING

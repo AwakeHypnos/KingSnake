@@ -1,10 +1,9 @@
-class_name Arrow
 extends Area2D
 
 @export var speed: float = 600.0
-var target: SnakeSegment = null
+var target_node: Node2D = null
 var damage: int = 2
-var direction: Vector2 = Vector2.DOWN
+var direction: Vector2 = Vector2(0.0, 1.0)
 
 var arrow_sprite: ColorRect
 
@@ -12,9 +11,9 @@ func _ready():
 	_setup_visual()
 	_setup_collision()
 	
-	if target != null:
-		direction = (target.global_position - global_position).normalized()
-		look_at(target.global_position)
+	if target_node != null:
+		direction = (target_node.global_position - global_position).normalized()
+		look_at(target_node.global_position)
 
 func _setup_visual():
 	arrow_sprite = ColorRect.new()
@@ -40,22 +39,23 @@ func _process(delta: float):
 	
 	global_position += direction * speed * delta
 	
-	if target != null and target.is_inside_tree():
-		var distance = global_position.distance_to(target.global_position)
+	if target_node != null and target_node.is_inside_tree():
+		var distance = global_position.distance_to(target_node.global_position)
 		if distance < 30.0:
 			_hit_target()
 	
-	if global_position.y > GameManager.SCREEN_HEIGHT + 100.0:
+	if global_position.y > 2020.0:
 		queue_free()
 
 func _on_body_entered(body: Node2D):
-	if body is SnakeSegment:
-		target = body
+	if body.has_method("take_damage"):
+		target_node = body
 		_hit_target()
 
 func _hit_target():
-	if target != null and target.is_inside_tree():
-		target.take_damage(damage)
+	if target_node != null and target_node.is_inside_tree():
+		if target_node.has_method("take_damage"):
+			target_node.take_damage(damage)
 	
 	var effect = _create_hit_effect()
 	effect.position = global_position
