@@ -1,0 +1,15 @@
+# Godot 编辑器缓存
+.godot/
+
+# Godot 导入缓存
+*.import
+
+# Web 导出产物
+KingSnake.html
+KingSnake.js
+KingSnake.wasm
+KingSnake.pck
+KingSnake.audio*.js
+KingSnake.apple-touch-icon.png
+KingSnake.icon.png
+KingSnake.png
